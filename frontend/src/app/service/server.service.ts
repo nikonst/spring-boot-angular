@@ -15,7 +15,7 @@ export class ServerService {
     return throwError(`An error occured - Error code: ${error.status}`)
   }
 
-  private readonly apiUrl = 'any';
+  private readonly apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) { }
 
