@@ -44,10 +44,13 @@ public class ServerApplication {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowCredentials(true);
 		configuration.setAllowedOrigins(Arrays.asList("*"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-		configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-		configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+		configuration.setAllowedHeaders(Arrays.asList("Origin", "Accept", "Jwt-Token",
+				"Access-Control-Allow-Origin", "Authorization", "content-type", "x-auth-token"));
+		configuration.setExposedHeaders(Arrays.asList("x-auth-token","Origin", "Accept",
+				"Access-Control-Allow-Origin", "Jwt-Token", "filename" ));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
