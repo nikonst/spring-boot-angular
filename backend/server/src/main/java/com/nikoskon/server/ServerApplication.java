@@ -3,6 +3,7 @@ package com.nikoskon.server;
 import com.nikoskon.server.enumeration.Status;
 import com.nikoskon.server.model.Server;
 import com.nikoskon.server.model.repo.ServerRepo;
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,17 +43,18 @@ public class ServerApplication {
 	}
 
 	@Bean
-	public CorsConfigurationSource corsConfigurationSource() {
+	public CorsFilter corsFilter() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowCredentials(true);
-		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 		configuration.setAllowedHeaders(Arrays.asList("Origin", "Accept", "Jwt-Token",
 				"Access-Control-Allow-Origin", "Authorization", "content-type", "x-auth-token"));
 		configuration.setExposedHeaders(Arrays.asList("x-auth-token","Origin", "Accept",
 				"Access-Control-Allow-Origin", "Jwt-Token", "filename" ));
+
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
-		return source;
+		return new CorsFilter();
 	}
 }

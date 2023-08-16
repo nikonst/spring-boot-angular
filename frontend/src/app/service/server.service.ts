@@ -1,13 +1,23 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CustomResponse } from '../interface/custom-response';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { Server } from '../interface/server';
 import { Status } from '../enum/status.enum';
 
+const headers = new HttpHeaders()
+.set('content-type', 'application/json')
+.set('Access-Control-Allow-Origin', '*')
+.set('Access-Control-Allow-Methods', 'HEAD, DELETE, POST, GET, OPTIONS, PUT, PATCH')
+.set('Connection','keep-alive')
+.set('Accept','/');
+
+console.log(headers)
+
 @Injectable({
   providedIn: 'root'
 })
+
 
 export class ServerService {
   private handelError(error: HttpErrorResponse): Observable<never> {
@@ -19,8 +29,10 @@ export class ServerService {
 
   constructor(private http: HttpClient) { }
 
+ 
+
   servers$ = <Observable<CustomResponse>>
-    this.http.get<CustomResponse>(`${this.apiUrl}/server/list`)
+    this.http.get<CustomResponse>(`${this.apiUrl}/server/list`, {'headers': headers})
       .pipe(
         tap(console.log),
         catchError(this.handelError)
